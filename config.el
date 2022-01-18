@@ -19,10 +19,16 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
-(setq doom-font (font-spec :family "DejaVuSansMono Nerd Font" :size 20)
+;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
+;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
+(setq doom-font (font-spec :family "FiraCode Nerd Font Mono" :size 18)
       doom-variable-pitch-font (font-spec :family "DejaVu Sans" :size 20)
-      doom-big-font (font-spec :family "DejaVuSansMono Nerd Font" :size 32))
+      doom-big-font (font-spec :family "FiraCode Nerd Font Mono" :size 30))
 
+;; There are two ways to load a theme. Both assume the theme is installed and
+;; available. You can either set `doom-theme' or manually load a theme with the
+;; `load-theme' function. This is the default:
+(setq doom-theme 'doom-dark+)
 
 (after! doom-themes
   (setq doom-themes-enable-bold t
@@ -31,11 +37,6 @@
 (custom-set-faces!
   '(font-lock-comment-face :slant italic)
   '(font-lock-keyword-face :slant italic))
-
-;; There are two ways to load a theme. Both assume the theme is installed and
-;; available. You can either set `doom-theme' or manually load a theme with the
-;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-dark+)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -65,20 +66,43 @@
 
 ;; Resolves BSPWM/Emacs issue where BSPWM won't tile Emacs to the appropriate
 ;; size on opening unless this is set
+
 (setq frame-resize-pixelwise t)
 
 ;; CCLS config stuff
 (after! ccls
   (setq ccls-initialization-options '(:index (:comments 2) :completion (:detailedLabel t)))
-  (set-lsp-priority! 'ccls 2)
-  (semantic-mode 1))
+  (set-lsp-priority! 'ccls 2))
 
-(setq lsp-file-watch-threshold 'nil)
+;; Prevents large # of files from loading in
+(setq lsp-file-watch-threshold 300)
 
+;; set rust analyzer to default
+(after! lsp-rust
+  (setq rustic-lsp-server 'rust-analyzer))
 (setq grip-preview-use-webkit t)
 
-(setq-default c-doc-comment-style
-                  '((java-mode . javadoc)
-                    (pike-mode . autodoc)
-                    (c-mode    . doxygen)
-                    (c++-mode  . doxygen)))
+;; set up doxygen generation
+(use-package! gendoxy
+  :hook (cc-mode))
+
+;; Disable automatic minibuffer popups for snippets and functions
+(setq lsp-signature-auto-activate 'nil)
+
+;; local configuration for TeX modes
+(defun my-latex-mode-setup ()
+  (setq-local company-backends
+              (append '((company-math-symbols-latex company-latex-commands))
+                      company-backends)))
+
+(add-hook 'tex-mode-hook 'my-latex-mode-setup)
+
+;; set erlang formatter
+(set-formatter! 'erlfmt  "rebar3 fmt" :modes '(erlang-mode))
+
+;; Recommended config for company-tabnine
+(after! company
+  (setq +lsp-company-backends '(company-tabnine :separate company-capf company-yasnippet))
+  (setq company-show-quick-access t)
+  (setq company-idle-delay 0)
+)

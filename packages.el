@@ -48,3 +48,20 @@
 ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
+
+ (package! gendoxy
+   :recipe (:host github :repo "mp81ss/gendoxy" :files ("gendoxy.el"))
+   :pin "ad470f5")
+
+ ;; Promela model checker
+ ;;(package! promela-mode
+ ;;  :recipe (:host github :repo "g15ecb/promela-mode" :files ("promela-mode.el")))
+
+ (package! company-tabnine :recipe (:host github :repo "TommyX12/company-tabnine"))
+
+;; vterm seg-fault fix
+;; https://github.com/akermu/emacs-libvterm/issues/559
+(package! vterm :recipe
+  (:host github
+   :repo "blahgeek/emacs-libvterm"
+   :branch "fix-visibility"))
