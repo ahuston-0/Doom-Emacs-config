@@ -61,7 +61,7 @@
 
 ;; vterm seg-fault fix
 ;; https://github.com/akermu/emacs-libvterm/issues/559
-(package! vterm :recipe
-  (:host github
-   :repo "blahgeek/emacs-libvterm"
-   :branch "fix-visibility"))
+;;(package! vterm :recipe
+;;  (:host github
+;;   :repo "blahgeek/emacs-libvterm"
+;;   :branch "fix-visibility"))
