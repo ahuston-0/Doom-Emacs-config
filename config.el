@@ -70,9 +70,18 @@
 (setq frame-resize-pixelwise t)
 
 ;; CCLS config stuff
-(after! ccls
-  (setq ccls-initialization-options '(:index (:comments 2) :completion (:detailedLabel t)))
-  (set-lsp-priority! 'ccls 2))
+;;(after! ccls
+;;  (setq ccls-initialization-options '(:index (:comments 2) :completion (:detailedLabel t)))
+;;  (set-lsp-priority! 'ccls 2))
+
+;; clangd config
+(setq lsp-clients-clangd-args '("-j=3"
+				"--background-index"
+				"--clang-tidy"
+				"--completion-style=detailed"
+				"--header-insertion=never"
+				"--header-insertion-decorators=0"))
+(after! lsp-clangd (set-lsp-priority! 'clangd 2))
 
 ;; Prevents large # of files from loading in
 (setq lsp-file-watch-threshold 300)
@@ -101,8 +110,28 @@
 (set-formatter! 'erlfmt  "rebar3 fmt" :modes '(erlang-mode))
 
 ;; Recommended config for company-tabnine
-(after! company
-  (setq +lsp-company-backends '(company-tabnine :separate company-capf company-yasnippet))
-  (setq company-show-quick-access t)
-  (setq company-idle-delay 0)
-)
+;;(after! company
+;;  (setq +lsp-company-backends '(company-tabnine :separate company-capf company-yasnippet))
+;;  (setq company-show-quick-access t)
+;;  (setq company-idle-delay 0)
+;;)
+
+;; enable wakatime globally
+(global-wakatime-mode)
+
+;; get tab working?
+(define-key evil-insert-state-map (kbd "TAB") 'tab-to-tab-stop)
+
+;; TODO Figure out what this one does
+(setq org-agenda-todo-list-sublevels 'nil)
+
+;; Promela mode configs
+(require 'promela-mode)
+(add-to-list 'auto-mode-alist '("\\.pml\\'" . promela-mode))
+
+;; Use package tree-sitter
+(use-package! tree-sitter
+  :config
+  (require 'tree-sitter-langs)
+  (global-tree-sitter-mode)
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
