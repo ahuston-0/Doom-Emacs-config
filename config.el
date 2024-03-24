@@ -16,6 +16,8 @@
 ;; + `doom-variable-pitch-font'
 ;; + `doom-big-font' -- used for `doom-big-font-mode'; use this for
 ;;   presentations or streaming.
+;; - `doom-unicode-font' -- for unicode glyphs
+;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
@@ -75,39 +77,39 @@
 ;;  (set-lsp-priority! 'ccls 2))
 
 ;; clangd config
-(setq lsp-clients-clangd-args '("-j=3"
-				"--background-index"
-				"--clang-tidy"
-				"--completion-style=detailed"
-				"--header-insertion=never"
-				"--header-insertion-decorators=0"))
-(after! lsp-clangd (set-lsp-priority! 'clangd 2))
+;; (setq lsp-clients-clangd-args '("-j=3"
+;; 				"--background-index"
+;; 				"--clang-tidy"
+;; 				"--completion-style=detailed"
+;; 				"--header-insertion=never"
+;; 				"--header-insertion-decorators=0"))
+;; (after! lsp-clangd (set-lsp-priority! 'clangd 2))
 
 ;; Prevents large # of files from loading in
-(setq lsp-file-watch-threshold 300)
+;; (setq lsp-file-watch-threshold 300)
 
 ;; set rust analyzer to default
-(after! lsp-rust
-  (setq rustic-lsp-server 'rust-analyzer))
-(setq grip-preview-use-webkit t)
+;; (after! lsp-rust
+;;   (setq rustic-lsp-server 'rust-analyzer))
+;; (setq grip-preview-use-webkit t)
 
 ;; set up doxygen generation
-(use-package! gendoxy
-  :hook (cc-mode))
+;; (use-package! gendoxy
+;;   :hook (cc-mode))
 
 ;; Disable automatic minibuffer popups for snippets and functions
-(setq lsp-signature-auto-activate 'nil)
+;; (setq lsp-signature-auto-activate 'nil)
 
 ;; local configuration for TeX modes
-(defun my-latex-mode-setup ()
-  (setq-local company-backends
-              (append '((company-math-symbols-latex company-latex-commands))
-                      company-backends)))
+;; (defun my-latex-mode-setup ()
+;;   (setq-local company-backends
+;;               (append '((company-math-symbols-latex company-latex-commands))
+;;                       company-backends)))
 
-(add-hook 'tex-mode-hook 'my-latex-mode-setup)
+;; (add-hook 'tex-mode-hook 'my-latex-mode-setup)
 
 ;; set erlang formatter
-(set-formatter! 'erlfmt  "rebar3 fmt" :modes '(erlang-mode))
+;; (set-formatter! 'erlfmt  "rebar3 fmt" :modes '(erlang-mode))
 
 ;; Recommended config for company-tabnine
 ;;(after! company
@@ -117,21 +119,21 @@
 ;;)
 
 ;; enable wakatime globally
-(global-wakatime-mode)
+   (global-wakatime-mode)
 
 ;; get tab working?
-(define-key evil-insert-state-map (kbd "TAB") 'tab-to-tab-stop)
+;;(define-key evil-insert-state-map (kbd "TAB") 'tab-to-tab-stop)
 
 ;; TODO Figure out what this one does
-(setq org-agenda-todo-list-sublevels 'nil)
+;; (setq org-agenda-todo-list-sublevels 'nil)
 
 ;; Promela mode configs
-(require 'promela-mode)
-(add-to-list 'auto-mode-alist '("\\.pml\\'" . promela-mode))
+;; (require 'promela-mode)
+;; (add-to-list 'auto-mode-alist '("\\.pml\\'" . promela-mode))
 
 ;; Use package tree-sitter
-(use-package! tree-sitter
-  :config
-  (require 'tree-sitter-langs)
-  (global-tree-sitter-mode)
-  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+;; (use-package! tree-sitter
+;;   :config
+;;   (require 'tree-sitter-langs)
+;;   (global-tree-sitter-mode)
+;;   (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))

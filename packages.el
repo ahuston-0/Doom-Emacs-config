@@ -68,6 +68,12 @@
 ;;   :repo "blahgeek/emacs-libvterm"
 ;;   :branch "fix-visibility"))
 
-;; add tree-sitter
-(package! tree-sitter)
-(package! tree-sitter-langs)
+;; Handlebars web format
+(package! handlebars-mode
+  :recipe (:host github :repo "danielevans/handlebars-mode" :files ("handlebars-mode.el")))
+
+;; Pinning due to doom getting locked in an error loop
+;; (package! straight :pin "3eca39d")
+
+(package! pacdiff.el
+  :recipe (:host github :repo "fbrosda/pacdiff.el" :files ("pacdiff.el" "README.org" "LICENSE")))
